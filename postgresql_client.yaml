@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: postgres-namespace
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          env:
+            - name: POSTGRES_DB
+              value: mydatabase     # Change this to your database name
+            - name: POSTGRES_USER
+              value: myuser         # Change this to your username
+            - name: POSTGRES_PASSWORD
+              value: mypassword     # Change this to a secure password
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: postgres-namespace
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
