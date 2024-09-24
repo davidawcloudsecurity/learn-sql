@@ -1,6 +1,8 @@
 # learn-sql
 how to install and run mysql/postgresql in eks
-
+```bash
+psql -U user -h hostname $DBname
+```
 ```bash
 SELECT STATUS, NAME FROM PUBLIC.INSTANCE WHERE NAME = 'name';
 SELECT STATUS, NAME FROM PUBLIC.INSTANCE WHERE NAME = 'name' AND STATUS = 'deleting';
